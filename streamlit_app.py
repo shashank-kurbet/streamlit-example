@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from joblib import load
-from sklearn.ensemble import RandomForestRegressor  # Assuming you're using RandomForestRegressor
+# from sklearn.ensemble import RandomForestRegressor  # Assuming you're using RandomForestRegressor
 
 # Load the trained model
 # model = load('./savedModels/model.joblib')
