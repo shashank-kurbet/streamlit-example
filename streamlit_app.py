@@ -4,7 +4,7 @@ from joblib import load
 from sklearn.ensemble import RandomForestRegressor  # Assuming you're using RandomForestRegressor
 
 # Load the trained model
-model = load('./savedModels/model.joblib')
+# model = load('./savedModels/model.joblib')
 
 # Streamlit app
 def main():
@@ -18,20 +18,20 @@ def main():
     year = st.number_input("Enter Year", min_value=2000, max_value=3000, step=1)
 
     # Predict button
-    if st.button("Predict"):
-        result = predict_quantity(store, brand, month, year)
-        st.success(f"The predicted monthly quantity is: {result}")
+#     if st.button("Predict"):
+#         result = predict_quantity(store, brand, month, year)
+#         st.success(f"The predicted monthly quantity is: {result}")
 
-# Function to make prediction
-def predict_quantity(store, brand, month, year):
-    # Assume X_test is a DataFrame with columns: ['Store', 'Brand', 'Month', 'Year']
-    # You may need to preprocess input data accordingly
-    input_data = pd.DataFrame({'Store': [store], 'Brand': [brand], 'Month': [month], 'Year': [year]})
+# # Function to make prediction
+# def predict_quantity(store, brand, month, year):
+#     # Assume X_test is a DataFrame with columns: ['Store', 'Brand', 'Month', 'Year']
+#     # You may need to preprocess input data accordingly
+#     input_data = pd.DataFrame({'Store': [store], 'Brand': [brand], 'Month': [month], 'Year': [year]})
     
-    # Make prediction using the loaded model
-    prediction = model.predict(input_data)
+#     # Make prediction using the loaded model
+#     prediction = model.predict(input_data)
 
-    return prediction[0]
+#     return prediction[0]
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
