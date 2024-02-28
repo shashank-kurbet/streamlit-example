@@ -1,40 +1,37 @@
-import altair as alt
-import numpy as np
-import pandas as pd
 import streamlit as st
+import pandas as pd
+from joblib import load
+from sklearn.ensemble import RandomForestRegressor  # Assuming you're using RandomForestRegressor
 
-"""
-# Welcome to Streamlit!
+# Load the trained model
+model = load('./savedModels/model.joblib')
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+# Streamlit app
+def main():
+    st.title("Monthly Quantity Predictor")
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+    # Input form
+    st.subheader("Enter Information:")
+    store = st.number_input("Enter Store ID", min_value=1, step=1)
+    brand = st.number_input("Enter Brand ID", min_value=1, step=1)
+    month = st.number_input("Enter Month", min_value=1, max_value=12, step=1)
+    year = st.number_input("Enter Year", min_value=2000, max_value=3000, step=1)
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
+    # Predict button
+    if st.button("Predict"):
+        result = predict_quantity(store, brand, month, year)
+        st.success(f"The predicted monthly quantity is: {result}")
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
+# Function to make prediction
+def predict_quantity(store, brand, month, year):
+    # Assume X_test is a DataFrame with columns: ['Store', 'Brand', 'Month', 'Year']
+    # You may need to preprocess input data accordingly
+    input_data = pd.DataFrame({'Store': [store], 'Brand': [brand], 'Month': [month], 'Year': [year]})
+    
+    # Make prediction using the loaded model
+    prediction = model.predict(input_data)
 
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
+    return prediction[0]
 
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
-
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+if __name__ == "__main__":
+    main()
